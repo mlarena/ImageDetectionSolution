@@ -1,0 +1,40 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.0.31903.59
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ImageDetectionApi", "ImageDetectionApi\ImageDetectionApi.csproj", "{75F0311D-1143-4538-93CD-14A786EA7377}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ImageDetectionMvc", "ImageDetectionMvc\ImageDetectionMvc.csproj", "{948EE86F-1E44-4E88-BB6E-9FB58F729FA0}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ImageDetectionApi.Tests", "ImageDetectionApi.Tests\ImageDetectionApi.Tests.csproj", "{C1EFA435-A7AC-4639-B7AE-0924C63B4B76}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ImageDetectionProcessingConsole", "ImageDetectionProcessingConsole\ImageDetectionProcessingConsole.csproj", "{A72220C2-8266-4BB3-A3C3-6B2D6E837F0A}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{75F0311D-1143-4538-93CD-14A786EA7377}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{75F0311D-1143-4538-93CD-14A786EA7377}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{75F0311D-1143-4538-93CD-14A786EA7377}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{75F0311D-1143-4538-93CD-14A786EA7377}.Release|Any CPU.Build.0 = Release|Any CPU
+		{948EE86F-1E44-4E88-BB6E-9FB58F729FA0}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{948EE86F-1E44-4E88-BB6E-9FB58F729FA0}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{948EE86F-1E44-4E88-BB6E-9FB58F729FA0}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{948EE86F-1E44-4E88-BB6E-9FB58F729FA0}.Release|Any CPU.Build.0 = Release|Any CPU
+		{C1EFA435-A7AC-4639-B7AE-0924C63B4B76}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{C1EFA435-A7AC-4639-B7AE-0924C63B4B76}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{C1EFA435-A7AC-4639-B7AE-0924C63B4B76}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{C1EFA435-A7AC-4639-B7AE-0924C63B4B76}.Release|Any CPU.Build.0 = Release|Any CPU
+		{A72220C2-8266-4BB3-A3C3-6B2D6E837F0A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{A72220C2-8266-4BB3-A3C3-6B2D6E837F0A}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{A72220C2-8266-4BB3-A3C3-6B2D6E837F0A}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{A72220C2-8266-4BB3-A3C3-6B2D6E837F0A}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+EndGlobal

@@ -1,0 +1,14 @@
+dotnet new sln -n ImageDetectionSolution
+
+dotnet new webapi -n ImageDetectionApi
+dotnet sln add ImageDetectionApi/ImageDetectionApi.csproj
+
+dotnet new mvc -n ImageDetectionMvc
+dotnet sln add ImageDetectionMvc/ImageDetectionMvc.csproj
+
+dotnet new xunit -n ImageDetectionApi.Tests
+dotnet sln add ImageDetectionApi.Tests/ImageDetectionApi.Tests.csproj
+
+dotnet new console -n ImageDetectionProcessingConsole
+dotnet sln add ImageDetectionProcessingConsole/ImageDetectionProcessingConsole.csproj
+
