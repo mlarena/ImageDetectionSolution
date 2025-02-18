@@ -12,5 +12,7 @@ namespace ImageDetectionMvc.Models
         public string Status { get; set; }
         public int CriticalLevel { get; set; }
         public DateTime DateTimeDetection { get; set; }
+
+
     }
 }

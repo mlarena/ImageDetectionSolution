@@ -1,0 +1,103 @@
+﻿@model IEnumerable<ImageDetectionMvc.Models.Detection>
+
+@{
+    ViewData["Title"] = "List Images";
+}
+
+<h1>List Images</h1>
+
+<p>
+    <a asp-action="Create">Create New</a>
+</p>
+<form asp-action="ListImages" method="get">
+    <div class="form-group">
+        <label for="videoName">Video Name:</label>
+        <input type="text" id="videoName" name="videoName" class="form-control" />
+    </div>
+    <div class="form-group">
+        <label for="status">Status:</label>
+        <input type="text" id="status" name="status" class="form-control" />
+    </div>
+    <div class="form-group">
+        <label for="className">Class Name:</label>
+        <input type="text" id="className" name="className" class="form-control" />
+    </div>
+    <div class="form-group">
+        <label for="criticalLevel">Critical Level:</label>
+        <input type="number" id="criticalLevel" name="criticalLevel" class="form-control" />
+    </div>
+    <button type="submit" class="btn btn-primary">Filter</button>
+</form>
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.Title)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.ImageName)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.VideoName)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.ClassName)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Latitude)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Longitude)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Status)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.CriticalLevel)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.DateTimeDetection)
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Title)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.ImageName)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.VideoName)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.ClassName)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Latitude)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Longitude)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Status)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.CriticalLevel)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.DateTimeDetection)
+                </td>
+                <td>
+                    <a asp-action="Edit" asp-route-id="@item.Id">Edit</a> |
+                    <a asp-action="Details" asp-route-id="@item.Id">Details</a> |
+                    <a asp-action="Delete" asp-route-id="@item.Id">Delete</a>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>

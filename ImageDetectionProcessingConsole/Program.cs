@@ -24,7 +24,8 @@ namespace ImageDetectionProcessingConsole
             var httpClient = serviceProvider.GetRequiredService<HttpClient>();
 
             // Пример: Загрузка JSON данных из файла
-            string jsonFilePath = @"path\to\your\data.json";
+            string jsonFilePath = @"C:\_dotnet\ImageDetectionSolution\ImageDetectionProcessingConsole\Front.json";
+
             if (File.Exists(jsonFilePath))
             {
                 string jsonContent = await File.ReadAllTextAsync(jsonFilePath);
@@ -50,28 +51,52 @@ namespace ImageDetectionProcessingConsole
         private static async Task SendDetectionDataAsync(HttpClient httpClient, Detection detection)
         {
             var apiUrl = "http://localhost:5070/api/detections";
-            var response = await httpClient.PostAsJsonAsync(apiUrl, detection);
 
-            if (response.IsSuccessStatusCode)
+            // Преобразование Latitude и Longitude в double
+            if (double.TryParse(detection.Latitude, out double latitude) &&
+                double.TryParse(detection.Longitude, out double longitude))
             {
-                Console.WriteLine("Detection data sent successfully.");
+                var detectionToSend = new Detection
+                {
+                    Id = detection.Id,
+                    Title = detection.Title,
+                    ImageName = detection.ImageName,
+                    VideoName = detection.VideoName,
+                    ClassName = detection.ClassName,
+                    Latitude = latitude.ToString(), // Преобразование обратно в строку для отправки
+                    Longitude = longitude.ToString(), // Преобразование обратно в строку для отправки
+                    Status = detection.Status,
+                    CriticalLevel = detection.CriticalLevel,
+                    DateTimeDetection = detection.DateTimeDetection
+                };
+
+                var response = await httpClient.PostAsJsonAsync(apiUrl, detectionToSend);
+
+                if (response.IsSuccessStatusCode)
+                {
+                    Console.WriteLine("Detection data sent successfully.");
+                }
+                else
+                {
+                    Console.WriteLine($"Failed to send detection data. Status code: {response.StatusCode}");
+                }
             }
             else
             {
-                Console.WriteLine($"Failed to send detection data. Status code: {response.StatusCode}");
+                Console.WriteLine("Failed to parse Latitude or Longitude.");
             }
         }
     }
 
     public class Detection
     {
-        public int Object_id { get; set; }
+        public int Id { get; set; }
         public string Title { get; set; }
         public string ImageName { get; set; }
         public string VideoName { get; set; }
-        public string Class_name { get; set; }
-        public double Latitude { get; set; }
-        public double Longitude { get; set; }
+        public string ClassName { get; set; }
+        public string Latitude { get; set; }
+        public string Longitude { get; set; }
         public string Status { get; set; }
         public int CriticalLevel { get; set; }
         public DateTime DateTimeDetection { get; set; }

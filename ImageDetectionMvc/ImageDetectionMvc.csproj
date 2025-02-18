@@ -11,6 +11,10 @@
     <PackageReference Include="System.Net.Http.Json" Version="9.0.2" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="RESULT_IMAGE\" />
+  </ItemGroup>
+
   <!-- <ItemGroup>
     <ProjectReference Include="..\ImageDetectionApi\ImageDetectionApi.csproj" />
   </ItemGroup> -->

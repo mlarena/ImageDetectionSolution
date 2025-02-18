@@ -1,10 +1,11 @@
 using ImageDetectionMvc.Models;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.Extensions.Options;
 using System.Net.Http;
 using System.Text;
 using System.Text.Json;
 using System.Threading.Tasks;
+using Microsoft.Extensions.Options;
+using System.Collections.Generic;
 
 namespace ImageDetectionMvc.Controllers
 {
@@ -22,15 +23,27 @@ namespace ImageDetectionMvc.Controllers
         public async Task<IActionResult> Index()
         {
             var response = await _httpClient.GetAsync(_apiUrl);
-            var detections = await response.Content.ReadFromJsonAsync<IEnumerable<Detection>>();
-            return View(detections);
+            if (response.IsSuccessStatusCode)
+            {
+                var content = await response.Content.ReadAsStringAsync();
+                if (!string.IsNullOrEmpty(content))
+                {
+                    var detections = JsonSerializer.Deserialize<IEnumerable<Detection>>(content);
+                    return View(detections);
+                }
+            }
+            return View(new List<Detection>());
         }
 
         public async Task<IActionResult> Details(int id)
         {
             var response = await _httpClient.GetAsync($"{_apiUrl}/{id}");
-            var detection = await response.Content.ReadFromJsonAsync<Detection>();
-            return View(detection);
+            if (response.IsSuccessStatusCode)
+            {
+                var detection = await response.Content.ReadFromJsonAsync<Detection>();
+                return View(detection);
+            }
+            return NotFound();
         }
 
         public IActionResult Create()
@@ -44,14 +57,22 @@ namespace ImageDetectionMvc.Controllers
             var json = JsonSerializer.Serialize(detection);
             var content = new StringContent(json, Encoding.UTF8, "application/json");
             var response = await _httpClient.PostAsync(_apiUrl, content);
-            return RedirectToAction(nameof(Index));
+            if (response.IsSuccessStatusCode)
+            {
+                return RedirectToAction(nameof(Index));
+            }
+            return View(detection);
         }
 
         public async Task<IActionResult> Edit(int id)
         {
             var response = await _httpClient.GetAsync($"{_apiUrl}/{id}");
-            var detection = await response.Content.ReadFromJsonAsync<Detection>();
-            return View(detection);
+            if (response.IsSuccessStatusCode)
+            {
+                var detection = await response.Content.ReadFromJsonAsync<Detection>();
+                return View(detection);
+            }
+            return NotFound();
         }
 
         [HttpPost]
@@ -60,21 +81,57 @@ namespace ImageDetectionMvc.Controllers
             var json = JsonSerializer.Serialize(detection);
             var content = new StringContent(json, Encoding.UTF8, "application/json");
             var response = await _httpClient.PutAsync($"{_apiUrl}/{id}", content);
-            return RedirectToAction(nameof(Index));
+            if (response.IsSuccessStatusCode)
+            {
+                return RedirectToAction(nameof(Index));
+            }
+            return View(detection);
         }
 
         public async Task<IActionResult> Delete(int id)
         {
             var response = await _httpClient.GetAsync($"{_apiUrl}/{id}");
-            var detection = await response.Content.ReadFromJsonAsync<Detection>();
-            return View(detection);
+            if (response.IsSuccessStatusCode)
+            {
+                var detection = await response.Content.ReadFromJsonAsync<Detection>();
+                return View(detection);
+            }
+            return NotFound();
         }
 
         [HttpPost, ActionName("Delete")]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
             var response = await _httpClient.DeleteAsync($"{_apiUrl}/{id}");
-            return RedirectToAction(nameof(Index));
+            if (response.IsSuccessStatusCode)
+            {
+                return RedirectToAction(nameof(Index));
+            }
+            return View(new Detection { Id = id });
+        }
+
+        public async Task<IActionResult> ListImages(string videoName = null, string status = null, string className = null, int? criticalLevel = null)
+        {
+            var queryParams = new Dictionary<string, string>();
+            if (!string.IsNullOrEmpty(videoName)) queryParams.Add("videoName", videoName);
+            if (!string.IsNullOrEmpty(status)) queryParams.Add("status", status);
+            if (!string.IsNullOrEmpty(className)) queryParams.Add("className", className);
+            if (criticalLevel.HasValue) queryParams.Add("criticalLevel", criticalLevel.Value.ToString());
+
+            var queryString = string.Join("&", queryParams.Select(kvp => $"{kvp.Key}={Uri.EscapeDataString(kvp.Value)}"));
+            var requestUrl = $"{_apiUrl}?{queryString}";
+
+            var response = await _httpClient.GetAsync(requestUrl);
+            if (response.IsSuccessStatusCode)
+            {
+                var content = await response.Content.ReadAsStringAsync();
+                if (!string.IsNullOrEmpty(content))
+                {
+                    var detections = JsonSerializer.Deserialize<IEnumerable<Detection>>(content);
+                    return View(detections);
+                }
+            }
+            return View(new List<Detection>());
         }
     }
 }

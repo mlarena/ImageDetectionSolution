@@ -2,6 +2,8 @@ using ImageDetectionApi.Data;
 using ImageDetectionApi.Models;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using System.Linq;
+using System.Threading.Tasks;
 
 namespace ImageDetectionApi.Controllers
 {
@@ -17,9 +19,29 @@ namespace ImageDetectionApi.Controllers
         }
 
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<Detection>>> GetDetections()
+        public async Task<ActionResult<IEnumerable<Detection>>> GetDetections(string videoName = null, string status = null, string className = null, int? criticalLevel = null)
         {
-            return await _context.Detections.ToListAsync();
+            var query = _context.Detections.AsQueryable();
+
+            if (!string.IsNullOrEmpty(videoName))
+            {
+                query = query.Where(d => d.VideoName.Contains(videoName));
+            }
+            if (!string.IsNullOrEmpty(status))
+            {
+                query = query.Where(d => d.Status == status);
+            }
+            if (!string.IsNullOrEmpty(className))
+            {
+                query = query.Where(d => d.ClassName == className);
+            }
+            if (criticalLevel.HasValue)
+            {
+                query = query.Where(d => d.CriticalLevel == criticalLevel.Value);
+            }
+
+            var detections = await query.OrderByDescending(d => d.Id).ToListAsync();
+            return Ok(detections);
         }
 
         [HttpGet("{id}")]
